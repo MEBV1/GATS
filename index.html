@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GATS - Genius Advanced Technology Services</title>
+    <!-- Web Icons -->
+    <link rel="icon" href="icon.jpg" type="image/jpeg">
+    <!-- Premium Fonts (Google Fonts Inter & Montserrat) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Montserrat:wght@700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Modern Technical Iconography -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Core Cascading Stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- Supabase Official JavaScript Client SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body class="dark-theme">
+
+    <!-- 1. PREMIUM SPLASH SCREEN -->
+    <div id="splash-screen">
+        <div class="splash-content">
+            <div class="splash-logo-container">
+                <img src="logo.jpg" alt="GATS Logo" class="splash-logo">
+                <div class="logo-glow-ring"></div>
+            </div>
+            <!-- Interactive visual reflecting the 'A' triangle in logo -->
+            <div class="splash-triangle-loader">
+                <svg viewBox="0 0 100 100">
+                    <polygon points="50,15 90,85 10,85" />
+                </svg>
+            </div>
+            <div class="splash-text-group">
+                <h1 class="splash-brand">GATS</h1>
+                <p class="splash-tagline">Genius Advanced Technology Services</p>
+            </div>
+            <div class="splash-loading-bar-container">
+                <div class="splash-loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GLOBAL TOAST NOTIFICATIONS WRAPPER -->
+    <div id="toast-container"></div>
+
+    <!-- 2. MAIN APP CONTAINER -->
+    <div id="app-container" class="hidden">
+        
+        <!-- HEADER / NAVIGATION -->
+        <header class="app-header">
+            <div class="header-container">
+                <div class="brand-identity">
+                    <a href="#" class="brand-link" id="nav-brand-logo">
+                        <img src="logo.jpg" alt="GATS Logo" class="nav-logo">
+                        <span class="nav-brand-name">GATS</span>
+                    </a>
+                </div>
+
+                <!-- Modern Responsive Desktop Menu -->
+                <nav class="desktop-navigation">
+                    <ul class="nav-list">
+                        <li><a href="#" class="nav-item active" data-target="home-section">Marketplace</a></li>
+                        <li><a href="#" class="nav-item" data-target="services-section">Services</a></li>
+                        <li><a href="#" class="nav-item" data-target="about-section">About Us</a></li>
+                        <li><a href="#" class="nav-item" data-target="contact-section">Contact Us</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Action Bar (Search/User/Cart/Mobile Menu Icon) -->
+                <div class="header-actions">
+                    <button class="action-btn" id="search-toggle" aria-label="Toggle Search"><i class="fa-solid fa-magnifying-glass"></i></button>
+                    <button class="action-btn" id="profile-btn" aria-label="User Profile"><i class="fa-solid fa-user"></i></button>
+                    <button class="action-btn cart-indicator" id="cart-btn" aria-label="Open Shopping Cart">
+                        <i class="fa-solid fa-shopping-cart"></i>
+                        <span class="cart-count-badge" id="cart-badge-count">0</span>
+                    </button>
+                    <button class="action-btn mobile-menu-toggle" id="mobile-menu-trigger" aria-label="Toggle Navigation Menu"><i class="fa-solid fa-bars-staggered"></i></button>
+                </div>
+            </div>
+
+            <!-- Full-width Search overlay -->
+            <div class="search-overlay-bar" id="search-overlay">
+                <div class="search-bar-inner">
+                    <div class="search-input-wrapper">
+                        <i class="fa-solid fa-search input-search-icon"></i>
+                        <input type="text" id="global-search-input" placeholder="Search product name, description or categories...">
+                        <button id="clear-search-btn"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- MOBILE SIDEBAR NAVIGATION -->
+        <aside class="mobile-navigation" id="mobile-sidebar">
+            <div class="mobile-nav-header">
+                <img src="logo.jpg" alt="GATS Logo" class="nav-logo">
+                <button class="close-mobile-nav" id="close-mobile-menu"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <nav class="mobile-nav-body">
+                <ul class="mobile-nav-list">
+                    <li><a href="#" class="mobile-nav-item active" data-target="home-section"><i class="fa-solid fa-shop"></i> Marketplace</a></li>
+                    <li><a href="#" class="mobile-nav-item" data-target="services-section"><i class="fa-solid fa-gears"></i> Services</a></li>
+                    <li><a href="#" class="mobile-nav-item" data-target="about-section"><i class="fa-solid fa-circle-info"></i> About Us</a></li>
+                    <li><a href="#" class="mobile-nav-item" data-target="contact-section"><i class="fa-solid fa-envelope"></i> Contact Us</a></li>
+                </ul>
+            </nav>
+            <div class="mobile-nav-footer">
+                <span class="copyright-subtext">© 2026 Genius Advanced Technology Services</span>
+            </div>
+        </aside>
+        <div class="sidebar-overlay" id="mobile-nav-backdrop"></div>
+
+        <!-- MAIN DYNAMIC SECTIONS -->
+        <main class="app-main">
+
+            <!-- Dynamic Live Ad Slider (Expiring ads handled via database timestamps) -->
+            <section id="promo-banners" class="ad-slider-section">
+                <div class="slider-viewport" id="advertisement-viewport">
+                    <!-- Advertisements dynamically populated by client JS -->
+                    <div class="slider-loading-state">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i> Loading Premium Deals...
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: HOME / MARKETPLACE -->
+            <section id="home-section" class="app-section active">
+                <div class="section-container">
+                    
+                    <!-- Search Results Header (Hidden by default) -->
+                    <div id="search-results-banner" class="results-banner hidden">
+                        <p class="search-results-text">Search results for: <strong id="search-term-display">""</strong></p>
+                        <button class="clear-search-link" id="reset-search-link">Show all products <i class="fa-solid fa-arrow-right"></i></button>
+                    </div>
+
+                    <!-- Category filter list -->
+                    <div class="category-filter-row">
+                        <button class="category-chip active" data-category-id="all">All Tech</button>
+                        <div class="dynamic-category-chips" id="categories-chips-container">
+                            <!-- Category tags injected dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Main Products Grid -->
+                    <div class="products-grid-wrapper">
+                        <h2 class="grid-section-title">Latest Advanced Hardware & Solutions</h2>
+                        <div class="products-grid" id="main-products-grid">
+                            <!-- Products injected dynamically -->
+                            <div class="grid-loading-placeholder">
+                                <i class="fa-solid fa-circle-notch fa-spin loader-icon"></i>
+                                <p>Syncing catalog with central GATS database...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: SERVICES -->
+            <section id="services-section" class="app-section">
+                <div class="section-container">
+                    <div class="section-header-block">
+                        <span class="sub-accent">What We Do Best</span>
+                        <h2 class="section-main-title">Professional Technical Services</h2>
+                        <p class="section-tagline-desc">Custom enterprise solutions, systems engineering, consulting, and advanced installations backed by experienced GATS specialists.</p>
+                    </div>
+                    <div class="services-grid" id="company-services-grid">
+                        <!-- Dynamic services injection -->
+                        <div class="grid-loading-placeholder">
+                            <i class="fa-solid fa-circle-notch fa-spin loader-icon"></i>
+                            <p>Loading expert service options...</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: ABOUT US -->
+            <section id="about-section" class="app-section">
+                <div class="section-container about-grid">
+                    <div class="about-visual">
+                        <div class="branding-frame">
+                            <img src="logo.jpg" alt="GATS Corporate Branding" class="about-hero-image">
+                            <div class="frame-accent-corner border-tr"></div>
+                            <div class="frame-accent-corner border-bl"></div>
+                        </div>
+                    </div>
+                    <div class="about-content-details">
+                        <span class="sub-accent">The Core of Genius Technology</span>
+                        <h2 class="about-main-title">Genius Advanced Technology Services</h2>
+                        <p class="about-para">Genius Advanced Technology Services (GATS) stands as a prominent pioneer of high-tech hardware, software integration, networking systems, and consulting services. We cater to the expanding technological landscape with robust, future-proof devices, customized network setups, server integrations, software installations, and professional consultancy.</p>
+                        <p class="about-para">Our objective is to match global standard digital assets and system operations to localized organizational demands. We offer continuous delivery timelines, strict quality control procedures, and top-tier expertise across every solution designed under the GATS signature.</p>
+                        <div class="corporate-milestones" style="grid-template-columns: 1fr;">
+    <div class="milestone-card" style="text-align: center;">
+        <div class="milestone-number">100%</div>
+        <div class="milestone-label">Service Verification</div>
+    </div>
+</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SECTION: CONTACT US -->
+            <section id="contact-section" class="app-section">
+                <div class="section-container">
+                    <div class="section-header-block">
+                        <span class="sub-accent">Get in Touch</span>
+                        <h2 class="section-main-title">Connect with GATS Engineering</h2>
+                        <p class="section-tagline-desc">Submit specialized configuration details, request custom quotations, or acquire quick technical assistance directly from our technical team.</p>
+                    </div>
+                    <div class="contact-layout-grid">
+                        <div class="contact-details-panel">
+                            <h3 class="panel-heading">Corporate Directory</h3>
+                            
+                            <div class="contact-method-card">
+                                <div class="card-icon-circle"><i class="fa-brands fa-whatsapp"></i></div>
+                                <div class="card-info">
+                                    <span class="card-label">Airtel WhatsApp Support</span>
+                                    <a href="https://wa.me/265994703380" target="_blank" class="card-link-action">+265 994 70 33 80</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-method-card">
+                                <div class="card-icon-circle"><i class="fa-solid fa-phone"></i></div>
+                                <div class="card-info">
+                                    <span class="card-label">TNM Mobile Direct Calls</span>
+                                    <a href="tel:+265881536044" class="card-link-action">+265 881 53 60 44</a>
+                                </div>
+                            </div>
+
+                            <div class="contact-method-card">
+                                <div class="card-icon-circle"><i class="fa-solid fa-envelope"></i></div>
+                                <div class="card-info">
+                                    <span class="card-label">Official Engineering Email</span>
+                                    <a href="mailto:genius.advanced.technology@gmail.com" class="card-link-action">genius.advanced.technology@gmail.com</a>
+                                </div>
+                            </div>
+
+                            <div class="operational-notice">
+                                <i class="fa-solid fa-triangle-exclamation warning-icon"></i>
+                                <p class="notice-text">All financial payments are processed securely via the designated checkout wizard. Confirm correct credentials prior to transaction validation.</p>
+                            </div>
+                        </div>
+
+                        <!-- Direct Static Query Form -->
+                        <div class="contact-form-panel">
+                            <h3 class="panel-heading">Direct Transmission</h3>
+                            <form id="contact-inquiry-form" class="inquiry-form-wrapper">
+                                <div class="form-row">
+                                    <label for="inquiry-name" class="control-label">Your Name</label>
+                                    <input type="text" id="inquiry-name" class="form-input" required placeholder="Enter full name">
+                                </div>
+                                <div class="form-row">
+                                    <label for="inquiry-email" class="control-label">Your Email</label>
+                                    <input type="email" id="inquiry-email" class="form-input" required placeholder="Enter your active email address">
+                                </div>
+                                <div class="form-row">
+                                    <label for="inquiry-text" class="control-label">Technical Query / System Specifications</label>
+                                    <textarea id="inquiry-text" class="form-input form-textarea" required placeholder="Describe your custom hardware setup, required software solutions or question here..."></textarea>
+                                </div>
+                                <button type="submit" class="submit-btn primary-red-gradient-btn"><span class="btn-text">Transmit Request</span> <i class="fa-solid fa-paper-plane icon-right"></i></button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+       <!-- FOOTER -->
+<footer class="app-footer">
+    <div class="footer-bottom-bar" style="border-top: 1px solid var(--border-color); padding: 30px 24px; text-align: center;">
+        <p class="footer-cr-text" style="margin: 0; color: var(--text-secondary); font-size: 0.85rem;">
+            © 2026 Genius Advanced Technology Services (GATS). All Rights Reserved.
+        </p>
+    </div>
+</footer>
+            </div>
+        </footer>
+    </div>
+
+
+    <!-- 3. MODALS AND OVERLAYS -->
+
+    <!-- USER AUTHENTICATION MODAL -->
+    <div class="modal-wrapper hidden" id="auth-modal-overlay">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="auth-modal-title"><i class="fa-solid fa-shield-halved text-red"></i> Account Entry Protocol</h3>
+                <button class="modal-close-btn" id="close-auth-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                
+                <!-- Toggle Form Selector Tabs -->
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" id="tab-login-trigger">Sign In</button>
+                    <button class="auth-tab-btn" id="tab-register-trigger">Register Profile</button>
+                </div>
+
+                <!-- Login Form -->
+                <form id="login-auth-form" class="auth-form-subpanel">
+                    <div class="form-row">
+                        <label for="login-email" class="control-label">Account Email Address</label>
+                        <input type="email" id="login-email" class="form-input" required placeholder="e.g. systemowner@gmail.com">
+                    </div>
+                    <div class="form-row">
+                        <label for="login-password" class="control-label">Access Password</label>
+                        <input type="password" id="login-password" class="form-input" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="submit-btn primary-red-gradient-btn"><span class="btn-text">Authenticate Credentials</span> <i class="fa-solid fa-right-to-bracket icon-right"></i></button>
+                </form>
+
+                <!-- Registration Form -->
+                <form id="register-auth-form" class="auth-form-subpanel hidden">
+                    <div class="form-row">
+                        <label for="register-name" class="control-label">Full Name / Corporate Entity</label>
+                        <input type="text" id="register-name" class="form-input" required placeholder="e.g. Kondwani Msofi">
+                    </div>
+                    <div class="form-row">
+                        <label for="register-email" class="control-label">Designated Email Address</label>
+                        <input type="email" id="register-email" class="form-input" required placeholder="e.g. systemowner@gmail.com">
+                    </div>
+                    <div class="form-row">
+                        <label for="register-phone" class="control-label">Contact Mobile Number</label>
+                        <input type="tel" id="register-phone" class="form-input" placeholder="e.g. +265 994 70 33 80">
+                    </div>
+                    <div class="form-row">
+                        <label for="register-password" class="control-label">Configure Password (6+ characters)</label>
+                        <input type="password" id="register-password" class="form-input" minlength="6" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="submit-btn primary-red-gradient-btn"><span class="btn-text">Register GATS Account</span> <i class="fa-solid fa-user-plus icon-right"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SHOPPING CART SLIDE OVERLAY / MODAL -->
+    <div class="modal-wrapper hidden" id="cart-modal-overlay">
+        <div class="cart-drawer-container">
+            <div class="cart-drawer-header">
+                <h3 class="drawer-title"><i class="fa-solid fa-shopping-basket"></i> Your Selections</h3>
+                <button class="cart-drawer-close" id="close-cart-btn"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            
+            <!-- Cart Contents Area -->
+            <div class="cart-drawer-body">
+                <div id="cart-items-wrapper" class="cart-list-scroller">
+                    <!-- Dynamic cart items injected here -->
+                    <div class="empty-cart-splash">
+                        <i class="fa-solid fa-cart-shopping empty-cart-icon"></i>
+                        <p class="empty-cart-text">No active catalog items in your cart.</p>
+                        <button class="browse-catalog-btn" id="browse-back-btn">Browse Tech Marketplace</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cart Totals & Checkout Actions -->
+            <div class="cart-drawer-footer" id="cart-footer-controls">
+                <div class="checkout-breakdown-row">
+                    <span class="breakdown-label">Total Selected Quantity:</span>
+                    <span class="breakdown-value" id="cart-total-qty-text">0</span>
+                </div>
+                <div class="checkout-breakdown-row highlight-row">
+                    <span class="breakdown-label">Cumulative Total Amount:</span>
+                    <span class="breakdown-value total-red" id="cart-grand-total-text">MWK 0.00</span>
+                </div>
+                <div class="cart-action-buttons-group">
+                    <button class="cart-secondary-btn" id="clear-full-cart"><i class="fa-solid fa-trash"></i> Empty Cart</button>
+                    <button class="cart-primary-action-btn primary-red-gradient-btn" id="checkout-cart-all-btn"><span class="btn-text">Buy All Selected Items</span> <i class="fa-solid fa-arrow-right icon-right"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- INTERACTIVE STEP-BY-STEP CHECKOUT PROTOCOL MODAL -->
+    <div class="modal-wrapper hidden" id="checkout-wizard-overlay" data-current-step="1">
+        <div class="modal-card checkout-wizard-card">
+            
+            <!-- Checkout Progress Bar Indicator -->
+            <div class="wizard-progress-bar">
+                <div class="progress-step active" id="wizard-progress-s1" data-step="1">
+                    <span class="step-num">1</span>
+                    <span class="step-label">Payment</span>
+                </div>
+                <div class="progress-connector" id="wizard-conn-1"></div>
+                <div class="progress-step" id="wizard-progress-s2" data-step="2">
+                    <span class="step-num">2</span>
+                    <span class="step-label">Screenshot</span>
+                </div>
+                <div class="progress-connector" id="wizard-conn-2"></div>
+                <div class="progress-step" id="wizard-progress-s3" data-step="3">
+                    <span class="step-num">3</span>
+                    <span class="step-label">Delivery</span>
+                </div>
+                <div class="progress-connector" id="wizard-conn-3"></div>
+                <div class="progress-step" id="wizard-progress-s4" data-step="4">
+                    <span class="step-num">4</span>
+                    <span class="step-label">Transmit</span>
+                </div>
+            </div>
+
+            <div class="modal-header">
+                <h3 class="modal-title" id="checkout-step-title">Step 1: Financial Processing</h3>
+                <button class="modal-close-btn" id="close-checkout-wizard"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="modal-body checkout-wizard-body">
+                
+                <!-- STEP 1: PAYMENT SYSTEM DISPLAY -->
+                <div class="checkout-step-panel" id="checkout-step-panel-1">
+                    <div class="payment-instructions-card">
+                        <h4 class="payment-instruction-heading"><i class="fa-solid fa-landmark"></i> Official Payment Portals</h4>
+                        <p class="payment-instruction-msg">Please make payment using the provided details. After payment, take a screenshot of your transaction. You will upload the screenshot in the next step.</p>
+                        
+                        <div class="financial-details-grid">
+                            <!-- Airtel Money -->
+                            <div class="gateway-card airtel-card">
+                                <div class="gateway-header">
+                                    <span class="gateway-brand">AIRTEL MONEY</span>
+                                    <i class="fa-solid fa-mobile-screen-button"></i>
+                                </div>
+                                <div class="gateway-body">
+                                    <span class="account-number">+265 994 70 33 80</span>
+                                    <span class="account-label">Recipient Name:</span>
+                                    <span class="account-owner">KONDWANI MSOFI</span>
+                                </div>
+                            </div>
+
+                            <!-- TNM Mpamba -->
+                            <div class="gateway-card tnm-card">
+                                <div class="gateway-header">
+                                    <span class="gateway-brand">TNM MPAMBA</span>
+                                    <i class="fa-solid fa-mobile-screen-button"></i>
+                                </div>
+                                <div class="gateway-body">
+                                    <span class="account-number">+265 881 53 60 44</span>
+                                    <span class="account-label">Recipient Name:</span>
+                                    <span class="account-owner">KONDWANI MSOFI</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Invoice summary in modal -->
+                        <div class="checkout-invoice-mini">
+                            <span class="invoice-summary-label">Amount Payable:</span>
+                            <span class="invoice-summary-val" id="checkout-payable-total">MWK 0.00</span>
+                        </div>
+                    </div>
+                    <div class="wizard-navigation-buttons">
+                        <div></div> <!-- empty spacer -->
+                        <button type="button" class="wizard-nav-btn primary-red-gradient-btn" id="wizard-proceed-step1"><span class="btn-text">PROCEED</span> <i class="fa-solid fa-chevron-right icon-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- STEP 2: SCREENSHOT UPLOAD PANEL -->
+                <div class="checkout-step-panel hidden" id="checkout-step-panel-2">
+                    <div class="screenshot-upload-zone">
+                        <h4 class="step-subheading"><i class="fa-solid fa-cloud-arrow-up"></i> Upload Verification Screenshot</h4>
+                        <p class="panel-supporting-text">Ensure transaction reference number and sent amounts are clearly visible in the image.</p>
+                        
+                        <div class="drag-drop-dropzone" id="screenshot-dropzone">
+                            <input type="file" id="screenshot-file-input" accept="image/*" class="hidden-file-input">
+                            <div class="dropzone-prompt">
+                                <i class="fa-regular fa-image upload-prompt-icon"></i>
+                                <span class="drop-text-primary">Drag & Drop transaction screenshot here</span>
+                                <span class="drop-text-or">or</span>
+                                <button type="button" class="drop-select-btn" id="trigger-file-select">Select Image File</button>
+                            </div>
+                            <!-- Image Preview Area -->
+                            <div class="dropzone-preview hidden" id="screenshot-preview-container">
+                                <img src="" alt="Screenshot preview" id="screenshot-image-preview">
+                                <div class="preview-overlay">
+                                    <button type="button" class="remove-preview-btn" id="reset-screenshot-btn"><i class="fa-solid fa-trash-can"></i> Remove File</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Progress indicator for upload -->
+                        <div class="upload-indicator-bar-container hidden" id="upload-progress-wrapper">
+                            <div class="upload-bar-fill" id="upload-progress-percentage-fill"></div>
+                            <span class="upload-percentage-text" id="upload-progress-label">Uploading: 0%</span>
+                        </div>
+                    </div>
+                    <div class="wizard-navigation-buttons">
+                        <button type="button" class="wizard-nav-btn secondary-back-btn" id="wizard-back-step2"><i class="fa-solid fa-chevron-left icon-left"></i> Back</button>
+                        <button type="button" class="wizard-nav-btn primary-red-gradient-btn disabled-btn" id="wizard-proceed-step2" disabled><span class="btn-text">PROCEED</span> <i class="fa-solid fa-chevron-right icon-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- STEP 3: CUSTOMER DELIVERY DETAILS -->
+                <div class="checkout-step-panel hidden" id="checkout-step-panel-3">
+                    <div class="customer-info-entry-form">
+                        <h4 class="step-subheading"><i class="fa-solid fa-truck-ramp-box"></i> Delivery & Dispatch Particulars</h4>
+                        <p class="panel-supporting-text">Specify exact shipping target addresses and selected transit couriers available in Malawi.</p>
+                        
+                        <form id="checkout-details-form" class="checkout-details-inputs">
+                            <div class="form-row">
+                                <label for="checkout-full-name" class="control-label">Full Name</label>
+                                <input type="text" id="checkout-full-name" class="form-input" required placeholder="Full legal name or corporate entity">
+                            </div>
+                            <div class="form-row">
+                                <label for="checkout-location" class="control-label">Location / Delivery Address</label>
+                                <input type="text" id="checkout-location" class="form-input" required placeholder="e.g. Area 18, House 45, Lilongwe">
+                            </div>
+                            <div class="form-row">
+                                <label for="checkout-contact" class="control-label">Contact Mobile Number</label>
+                                <input type="tel" id="checkout-contact" class="form-input" required placeholder="e.g. +265 994 70 33 80">
+                            </div>
+                            <div class="form-row">
+                                <label for="checkout-courier" class="control-label">Malawian Courier Service Preference</label>
+                                <div class="custom-select-wrapper">
+                                    <select id="checkout-courier" class="form-input" required>
+                                        <option value="" disabled selected>Select courier service...</option>
+                                        <option value="Speed courier">Speed courier</option>
+                                        <option value="CTS courier">CTS courier</option>
+                                        <option value="Post Courier">Post Courier</option>
+                                        <option value="Bus">Bus</option>
+                                        <option value="Taxi Drivers">Taxi Drivers</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="wizard-navigation-buttons">
+                        <button type="button" class="wizard-nav-btn secondary-back-btn" id="wizard-back-step3"><i class="fa-solid fa-chevron-left icon-left"></i> Back</button>
+                        <button type="button" class="wizard-nav-btn primary-red-gradient-btn" id="wizard-proceed-step3"><span class="btn-text">Submit Details</span> <i class="fa-solid fa-circle-check icon-right"></i></button>
+                    </div>
+                </div>
+
+                <!-- STEP 4: WHATSAPP REDIRECTION MODAL -->
+                <div class="checkout-step-panel hidden" id="checkout-step-panel-4">
+                    <div class="whatsapp-redirect-instructions text-center">
+                        <div class="success-icon-badge"><i class="fa-brands fa-whatsapp success-pulse"></i></div>
+                        <h4 class="step-subheading text-green">GATS Database Synced Successfully!</h4>
+                        <p class="whats-instruction-lead">Please send everything through WhatsApp by clicking the button below.</p>
+                        
+                        <!-- Animated Pointing Hand -->
+                        <div class="pointing-hand-animation">
+                            <span class="animated-hand">👉</span>
+                        </div>
+
+                        <button type="button" class="whatsapp-trigger-btn" id="whatsapp-redirect-btn">
+                            <i class="fa-brands fa-whatsapp"></i> SEND VIA WHATSAPP
+                        </button>
+
+                        <p class="whatsapp-disclaimer">Your database record and screenshot file metadata are locked. Click above to send confirmation immediately via secure WhatsApp stream.</p>
+                    </div>
+                    <div class="wizard-navigation-buttons flex-center">
+                        <button type="button" class="wizard-nav-btn reset-checkout-btn" id="wizard-close-success">Complete Checkout Protocol</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FULLY HIDDEN ADMINISTRATIVE LOGIN PROTOCOL SCREEN -->
+    <div class="modal-wrapper hidden" id="admin-auth-overlay">
+        <div class="modal-card admin-login-card">
+            <div class="modal-header">
+                <h3 class="modal-title"><i class="fa-solid fa-terminal text-red"></i> Administrative Access Port</h3>
+                <button class="modal-close-btn" id="close-admin-auth-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <p class="admin-disclaimer">Unauthorized access attempts are logged securely onto GATS servers. Input administrative passkeys below.</p>
+                <form id="admin-login-form" class="auth-form-subpanel">
+                    <div class="form-row">
+                        <label for="admin-email" class="control-label">Admin Email Credentials</label>
+                        <input type="email" id="admin-email" class="form-input" required placeholder="admin@genius.com">
+                    </div>
+                    <div class="form-row">
+                        <label for="admin-passkey" class="control-label">Security Passphrase</label>
+                        <input type="password" id="admin-passkey" class="form-input" required placeholder="••••••••">
+                    </div>
+                    <button type="submit" class="submit-btn admin-gradient-btn"><span class="btn-text">Initiate Admin Core</span> <i class="fa-solid fa-fingerprint icon-right"></i></button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- CENTRAL ADMINISTRATIVE CONTROL DASHBOARD PANEL -->
+    <div class="modal-wrapper hidden" id="admin-dashboard-overlay">
+        <div class="admin-dashboard-container">
+            
+            <!-- Dashboard Sidebar Panel -->
+            <aside class="admin-db-sidebar">
+                <div class="sidebar-identity">
+                    <img src="logo.jpg" alt="GATS logo admin" class="admin-db-logo">
+                    <div class="admin-info-badge">
+                        <span class="admin-title">GATS Admin</span>
+                        <span class="admin-sub">Active Terminal</span>
+                    </div>
+                </div>
+                
+                <!-- Dashboard tabs selector -->
+                <nav class="admin-db-menu">
+                    <ul class="admin-menu-list">
+                        <li><button class="admin-menu-item active" data-panel="admin-overview"><i class="fa-solid fa-chart-line"></i> Statistics Overview</button></li>
+                        <li><button class="admin-menu-item" data-panel="admin-products"><i class="fa-solid fa-boxes-stacked"></i> Products Catalog</button></li>
+                        <li><button class="admin-menu-item" data-panel="admin-orders"><i class="fa-solid fa-receipt"></i> Orders Stream <span class="badge-new-orders" id="badge-live-orders-count">0</span></button></li>
+                        <li><button class="admin-menu-item" data-panel="admin-adverts"><i class="fa-solid fa-rectangle-ad"></i> Ad Manager</button></li>
+                        <li><button class="admin-menu-item" data-panel="admin-services"><i class="fa-solid fa-toolbox"></i> Service Setup</button></li>
+                    </ul>
+                </nav>
+
+                <div class="admin-sidebar-footer">
+                    <button class="admin-logout-btn" id="admin-session-terminate-btn"><i class="fa-solid fa-power-off"></i> Terminate Admin Panel</button>
+                </div>
+            </aside>
+
+            <!-- Dashboard Content Space -->
+            <main class="admin-db-main-content">
+                
+                <!-- Admin Dashboard Header -->
+                <header class="admin-db-header">
+                    <h2 class="admin-panel-title" id="admin-active-panel-title"><i class="fa-solid fa-chart-line"></i> Statistics Overview</h2>
+                    <div class="admin-sync-indicator">
+                        <span class="pulse-point animate-pulse"></span> Supabase Realtime Connected
+                    </div>
+                </header>
+
+                <div class="admin-db-body">
+                    
+                    <!-- DYNAMIC SUBPANEL: OVERVIEW/STATISTICS -->
+                    <div class="admin-subpanel" id="panel-admin-overview">
+                        <div class="statistics-summary-grid">
+                            <div class="stat-box-card">
+                                <div class="stat-icon-wrapper red-grad"><i class="fa-solid fa-users"></i></div>
+                                <div class="stat-numeric-info">
+                                    <span class="stat-number-val" id="stat-total-users">0</span>
+                                    <span class="stat-label">Total Users</span>
+                                </div>
+                            </div>
+                            <div class="stat-box-card">
+                                <div class="stat-icon-wrapper purple-grad"><i class="fa-solid fa-box-open"></i></div>
+                                <div class="stat-numeric-info">
+                                    <span class="stat-number-val" id="stat-total-products">0</span>
+                                    <span class="stat-label">Total Products</span>
+                                </div>
+                            </div>
+                            <div class="stat-box-card">
+                                <div class="stat-icon-wrapper orange-grad"><i class="fa-solid fa-receipt"></i></div>
+                                <div class="stat-numeric-info">
+                                    <span class="stat-number-val" id="stat-total-orders">0</span>
+                                    <span class="stat-label">Total Orders</span>
+                                </div>
+                            </div>
+                            <div class="stat-box-card">
+                                <div class="stat-icon-wrapper green-grad"><i class="fa-solid fa-wallet"></i></div>
+                                <div class="stat-numeric-info">
+                                    <span class="stat-number-val" id="stat-total-sales">MWK 0.00</span>
+                                    <span class="stat-label">Total Sales Revenue</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Graph & Database Logs Wrapper -->
+                        <div class="database-logs-analytics">
+                            <div class="log-card-panel">
+                                <h3 class="panel-inner-title"><i class="fa-solid fa-clock-rotate-left"></i> Realtime Security & Activity Logs</h3>
+                                <div class="activity-log-scroller" id="admin-security-activity-logs">
+                                    <!-- Dynamic log feeds -->
+                                    <div class="empty-log-msg">Logs initialized. Waiting for platform operations...</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- DYNAMIC SUBPANEL: PRODUCT MANAGEMENT -->
+                    <div class="admin-subpanel hidden" id="panel-admin-products">
+                        <div class="subpanel-action-bar">
+                            <button class="add-new-record-btn" id="open-product-modal-btn"><i class="fa-solid fa-plus"></i> Add New Product</button>
+                            <div class="catalog-sub-search">
+                                <input type="text" id="admin-product-search" placeholder="Filter product name...">
+                            </div>
+                        </div>
+
+                        <div class="admin-data-table-wrapper">
+                            <table class="admin-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Image</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Base Price (MWK)</th>
+                                        <th>Promo %</th>
+                                        <th>Stock Quantity</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-products-table-body">
+                                    <!-- Dynamic product table entries -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- DYNAMIC SUBPANEL: ORDER MANAGEMENT (REALTIME STREAM) -->
+                    <div class="admin-subpanel hidden" id="panel-admin-orders">
+                        <div class="subpanel-action-bar">
+                            <h3 class="sub-section-title">Live Transaction Streams</h3>
+                            <button class="refresh-stream-btn" id="refresh-admin-orders-stream-btn"><i class="fa-solid fa-rotate"></i> Reload Order Logs</button>
+                        </div>
+                        <div class="admin-data-table-wrapper">
+                            <table class="admin-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Date/Time</th>
+                                        <th>Customer Particulars</th>
+                                        <th>Order Quantities & Total</th>
+                                        <th>Payment Method & Screenshot</th>
+                                        <th>Courier Selection</th>
+                                        <th>Current Status</th>
+                                        <th>Order Action Controls</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-orders-table-body">
+                                    <!-- Dynamic realtime order rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- DYNAMIC SUBPANEL: ADVERTISEMENT MANAGEMENT -->
+                    <div class="admin-subpanel hidden" id="panel-admin-adverts">
+                        <div class="subpanel-action-bar">
+                            <button class="add-new-record-btn" id="open-advert-modal-btn"><i class="fa-solid fa-plus"></i> Configure Promo Advertisement Banner</button>
+                        </div>
+                        <div class="admin-data-table-wrapper">
+                            <table class="admin-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Banner Layout</th>
+                                        <th>Campaign Title</th>
+                                        <th>Campaign Description</th>
+                                        <th>Start Date</th>
+                                        <th>Expiration End Date</th>
+                                        <th>Campaign Status</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-adverts-table-body">
+                                    <!-- Dynamic advert table rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- DYNAMIC SUBPANEL: SERVICES MANAGEMENT -->
+                    <div class="admin-subpanel hidden" id="panel-admin-services">
+                        <div class="subpanel-action-bar">
+                            <button class="add-new-record-btn" id="open-service-modal-btn"><i class="fa-solid fa-plus"></i> Construct Company Service Package</button>
+                        </div>
+                        <div class="admin-data-table-wrapper">
+                            <table class="admin-data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Service Icon/Image</th>
+                                        <th>Service Name</th>
+                                        <th>Details & Scope</th>
+                                        <th>Standard Charge (MWK)</th>
+                                        <th>Primary Contact Info</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-services-table-body">
+                                    <!-- Dynamic service rows -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+
+    <!-- 4. SUB-MODALS FOR ADMINISTRATIVE CRUD CREATION/EDITING -->
+
+    <!-- SUB-MODAL: PRODUCT CRUD FORM -->
+    <div class="modal-wrapper hidden" id="product-crud-modal-overlay">
+        <div class="modal-card crud-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="product-crud-title">Add/Edit Catalog Product</h3>
+                <button class="modal-close-btn" id="close-product-crud-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="product-crud-form">
+                    <input type="hidden" id="crud-product-id">
+                    
+                    <div class="form-row">
+                        <label for="crud-product-name" class="control-label">Product Name</label>
+                        <input type="text" id="crud-product-name" class="form-input" required placeholder="e.g. Cisco Catalyst Switch C9200">
+                    </div>
+                    <div class="form-row">
+                        <label for="crud-product-desc" class="control-label">Product Description</label>
+                        <textarea id="crud-product-desc" class="form-input form-textarea" required placeholder="Cisco Catalyst 9200 24-port PoE+ Switch with network essential license configuration..."></textarea>
+                    </div>
+                    
+                    <div class="form-row-grid">
+                        <div class="form-row">
+                            <label for="crud-product-category" class="control-label">Assign Category</label>
+                            <select id="crud-product-category" class="form-input" required>
+                                <option value="" disabled selected>Choose assigned category...</option>
+                                <!-- Categories dynamically loaded -->
+                            </select>
+                        </div>
+                        <div class="form-row">
+                            <label for="crud-product-stock" class="control-label">In-Stock Quantity</label>
+                            <input type="number" id="crud-product-stock" class="form-input" required min="0" value="10">
+                        </div>
+                    </div>
+
+                    <div class="form-row-grid">
+                        <div class="form-row">
+                            <label for="crud-product-price" class="control-label">Base Retail Price (MWK)</label>
+                            <input type="number" id="crud-product-price" class="form-input" required min="0" step="0.01" placeholder="e.g. 150000">
+                        </div>
+                        <div class="form-row">
+                            <label for="crud-product-promo" class="control-label">Promotion Discount Percentage (%)</label>
+                            <input type="number" id="crud-product-promo" class="form-input" min="0" max="100" value="0">
+                        </div>
+                    </div>
+
+                    <div class="form-row-grid">
+                        <div class="form-row">
+                            <label for="crud-product-colors" class="control-label">Available Colors (Comma Separated)</label>
+                            <input type="text" id="crud-product-colors" class="form-input" placeholder="Black, Silver, Gray">
+                        </div>
+                        <div class="form-row">
+                            <label for="crud-product-sizes" class="control-label">Available Sizes (Comma Separated)</label>
+                            <input type="text" id="crud-product-sizes" class="form-input" placeholder="Standard, XL, 24-Port, 48-Port">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="control-label">Upload Product Images</label>
+                        <div class="crud-image-upload-wrapper">
+                            <input type="file" id="crud-product-image-file" accept="image/*" class="form-input">
+                            <input type="text" id="crud-product-image-url-fallback" class="form-input" placeholder="Or enter static URL directly (Fallback mode)">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer-action">
+                        <button type="submit" class="submit-btn primary-red-gradient-btn" id="product-save-btn">Save Product Details</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SUB-MODAL: ADVERTISEMENT CRUD FORM -->
+    <div class="modal-wrapper hidden" id="advert-crud-modal-overlay">
+        <div class="modal-card crud-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="advert-crud-title">Configure Promo Advertisement</h3>
+                <button class="modal-close-btn" id="close-advert-crud-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="advert-crud-form">
+                    <input type="hidden" id="crud-advert-id">
+                    
+                    <div class="form-row">
+                        <label for="crud-advert-title" class="control-label">Campaign / Banner Title</label>
+                        <input type="text" id="crud-advert-title" class="form-input" required placeholder="e.g. Mega Season Networking Clearance">
+                    </div>
+                    <div class="form-row">
+                        <label for="crud-advert-desc" class="control-label">Short Campaign Promo Description</label>
+                        <textarea id="crud-advert-desc" class="form-input form-textarea" required placeholder="Enjoy massive 30% discount off GATS server deployments. Offers valid while stocks last!"></textarea>
+                    </div>
+
+                    <div class="form-row-grid">
+                        <div class="form-row">
+                            <label for="crud-advert-start" class="control-label">Start Date/Time</label>
+                            <input type="datetime-local" id="crud-advert-start" class="form-input" required>
+                        </div>
+                        <div class="form-row">
+                            <label for="crud-advert-end" class="control-label">End Expiration Date/Time</label>
+                            <input type="datetime-local" id="crud-advert-end" class="form-input" required>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="control-label">Upload Promotional Image Banner</label>
+                        <div class="crud-image-upload-wrapper">
+                            <input type="file" id="crud-advert-image-file" accept="image/*" class="form-input">
+                            <input type="text" id="crud-advert-image-url-fallback" class="form-input" placeholder="Or enter static image URL directly (Fallback mode)">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer-action">
+                        <button type="submit" class="submit-btn primary-red-gradient-btn" id="advert-save-btn">Deploy Banner Campaign</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- SUB-MODAL: SERVICES CRUD FORM -->
+    <div class="modal-wrapper hidden" id="service-crud-modal-overlay">
+        <div class="modal-card crud-card">
+            <div class="modal-header">
+                <h3 class="modal-title" id="service-crud-title">Construct Company Service</h3>
+                <button class="modal-close-btn" id="close-service-crud-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="service-crud-form">
+                    <input type="hidden" id="crud-service-id">
+                    
+                    <div class="form-row">
+                        <label for="crud-service-name" class="control-label">Service Package Name</label>
+                        <input type="text" id="crud-service-name" class="form-input" required placeholder="e.g. Enterprise Firewall Configuration">
+                    </div>
+                    <div class="form-row">
+                        <label for="crud-service-desc" class="control-label">Scope of Services & Structural Deliverables</label>
+                        <textarea id="crud-service-desc" class="form-input form-textarea" required placeholder="Full-scale firewall architectural layout, DMZ configuration, port mapping, IP filter configurations, and 12-month technical auditing."></textarea>
+                    </div>
+
+                    <div class="form-row-grid">
+                        <div class="form-row">
+                            <label for="crud-service-price" class="control-label">Base/Starting Price if needed (MWK)</label>
+                            <input type="number" id="crud-service-price" class="form-input" min="0" step="0.01" placeholder="Leave empty for dynamic pricing quote">
+                        </div>
+                        <div class="form-row">
+                            <label for="crud-service-contact" class="control-label">Lead Support Direct Line / Email</label>
+                            <input type="text" id="crud-service-contact" class="form-input" required value="+265 994 70 33 80">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <label class="control-label">Upload Service Display Image</label>
+                        <div class="crud-image-upload-wrapper">
+                            <input type="file" id="crud-service-image-file" accept="image/*" class="form-input">
+                            <input type="text" id="crud-service-image-url-fallback" class="form-input" placeholder="Or enter static service image URL directly (Fallback mode)">
+                        </div>
+                    </div>
+
+                    <div class="modal-footer-action">
+                        <button type="submit" class="submit-btn primary-red-gradient-btn" id="service-save-btn">Save Company Service Package</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- FULLSCREEN TRANSACTION SCREENSHOT LIGHTBOX VIEW -->
+    <div class="modal-wrapper hidden" id="screenshot-lightbox-overlay">
+        <div class="lightbox-container">
+            <button class="lightbox-close-btn" id="close-screenshot-lightbox"><i class="fa-solid fa-xmark"></i> Close Image View</button>
+            <div class="lightbox-viewport">
+                <img src="" alt="Verified Payment Screenshot" id="lightbox-screenshot-target">
+            </div>
+        </div>
+    </div>
+
+    <!-- Core App JavaScript Control Script -->
+    <script src="js/app.js"></script>
+</body>
+</html>
